@@ -4,6 +4,7 @@ https://github.com/irvs/ros_tms/wiki/how-to-configure-rosjava-apps-with-gradle
 http://guiklink.github.io/portfolio/projects/6-ROS_Java/
 
 ## Create a new package
+```sh
 $ mkdir -p ~/YOUR_WORKSPACE/src
 $ cd src
 # catkin_create_android_pkg [package name] [dependecy 1] [dependecy 2] ..
@@ -13,7 +14,7 @@ $ cd test_pkg
 $ catkin_create_android_project test_project
 $ cd ../..
 $ catkin_make
-
+```
 
 # Troubleshooting
 
