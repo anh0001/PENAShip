@@ -5,10 +5,10 @@
 4. http://stackoverflow.com/questions/36683726/failed-to-find-build-tools-revision-23-0-1
 
 
-## Troubleshooting
+# Troubleshooting
 There are some problems when we install the first tutorial
 
-### Install ros-indigo-rosjava-build-tools
+## Install ros-indigo-rosjava-build-tools
 ```
 sudo apt-get install ros-indigo-rosjava-build-tools
 ```
