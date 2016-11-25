@@ -1,0 +1,25 @@
+<Thresholds>
+	<HUE_Min-Max>
+		<minimum>50</minimum>
+		<maximum>50</maximum>
+	</HUE_Min-Max>
+<Thresholds/>
+	<Saturation_Min-Max>
+		<minimum>50</minimum>
+		<maximum>50</maximum>
+	</Saturation_Min-Max>
+	<Value_Min-Max>
+		<minimum>50</minimum>
+		<maximum>50</maximum>
+	</Value_Min-Max>
+<group>
+		<group>
+			<minimum>46</minimum>
+			<maximum>88</maximum>
+			<x>1057</x>
+			<y>567</y>
+			<width>88</width>
+			<height>88</height>
+		</group>
+	</group>
+</Thresholds>
