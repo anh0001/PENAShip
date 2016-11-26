@@ -14,12 +14,12 @@
 	</Value_Min-Max>
 <group>
 		<group>
-			<minimum>46</minimum>
-			<maximum>88</maximum>
-			<x>1057</x>
-			<y>567</y>
-			<width>88</width>
-			<height>88</height>
+			<minimum>1</minimum>
+			<maximum>31</maximum>
+			<x>124</x>
+			<y>169</y>
+			<width>50</width>
+			<height>50</height>
 		</group>
 	</group>
 </Thresholds>

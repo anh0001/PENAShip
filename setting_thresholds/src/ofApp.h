@@ -6,6 +6,8 @@
 #include "ofxChart.h"
 #include "lib/ofxChartSeriesBarRange.h"
 
+#define USE_CAMERA
+
 class ofApp : public ofBaseApp{
 	public:
 		void setup();
@@ -23,6 +25,14 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+	#ifdef USE_CAMERA
+		//Camera
+        ofVideoGrabber vid_grabber;
+        int cam_width;
+        int cam_height;
+
+	#endif
 
         // Opencv
         ofImage im_input;

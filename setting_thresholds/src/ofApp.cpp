@@ -4,11 +4,43 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-        // --- OpenCV ---
-    im_input.load("blue.png");
+
+#ifdef USE_CAMERA
+	cam_width = 480;  // try to grab at this size.
+	cam_height = 240;
+
+	//we can now get back a list of devices.
+	vector<ofVideoDevice> devices = vid_grabber.listDevices();
+
+	for(int i = 0; i < devices.size(); i++){
+		if(devices[i].bAvailable){
+			ofLogNotice() << devices[i].id << ": " << devices[i].deviceName;
+		}else{
+			ofLogNotice() << devices[i].id << ": " << devices[i].deviceName << " - unavailable ";
+		}
+	}
+
+	vid_grabber.setDeviceID(0);
+	vid_grabber.setDesiredFrameRate(60);
+	vid_grabber.initGrabber(cam_width, cam_height);
+
+	ofSetVerticalSync(true);
+
+	vid_grabber.update();
+	if(vid_grabber.isFrameNew()){
+		ofPixels& pixels = vid_grabber.getPixels();
+		mat_input = ofxCv::toCv(pixels);
+		cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
+		mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
+	}
+
+#else
+
+	im_input.load("blue.png");// --- OpenCV ---
     mat_input = ofxCv::toCv(im_input).clone();
     cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
     mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
+#endif
 
     // --- GUI ---
     gui.setup("Thresholds", "thresholds.xml",10,340);
@@ -95,7 +127,7 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(200, 200, 200);
 
-    int thickness = 7;
+    int thickness = 5;
     cv::Mat im_with_rectangle = mat_input.clone();
     cv::rectangle(im_with_rectangle, cv::Rect(roi_x,roi_y,roi_width,roi_height),
     		cv::Scalar(10,255,10), thickness, 8, 0);
@@ -183,6 +215,20 @@ void ofApp::draw(){
     		roi_height = roi_height - 1;
     	else if (key_is_down['0'] && key_is_down['='])
     		roi_height = roi_height + 1;
+
+#ifdef USE_CAMERA
+    	if (key_is_down['c'])
+    	{
+    		vid_grabber.update();
+    		if(vid_grabber.isFrameNew()){
+    			ofPixels& pixels = vid_grabber.getPixels();
+    			mat_input = ofxCv::toCv(pixels);
+    			cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
+    			mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
+    		}
+    	}
+#endif
+
     }
 }
 
