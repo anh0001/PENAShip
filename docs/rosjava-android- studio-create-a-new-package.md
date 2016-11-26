@@ -9,6 +9,14 @@ $ mkdir -p ~/YOUR_WORKSPACE/src
 $ cd src
 # catkin_create_android_pkg [package name] [dependecy 1] [dependecy 2] ..
 $ catkin_create_android_pkg test_pkg android_core rosjava_core std_msgs
+```
+This will create the package with:
+1. build.gradle
+2. CMakeLists.txt
+3. settings.gradle
+4. package.xml
+
+```sh
 $ cd test_pkg
 # catkin_create_android_project [-t TARGET_VERSION] [-p ANDROID_PACKAGE_NAME] [-a AUTHOR] [NAME]
 $ catkin_create_android_project test_project
@@ -28,7 +36,9 @@ If you use Linux and bash, you need to add something to the .bashrc like this: P
 
 Normally, the android script is at YOUR_SDK_ROOT/tools.
 
-```export PATH="/home/anhar/Android/Sdk/tools:$PATH"```
+```sh
+export PATH="/home/anhar/Android/Sdk/tools:$PATH"
+```
 
 ## Error:Execution failed for task ':test_project:compileDebugJava'.
 ```
@@ -40,7 +50,7 @@ http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04
 In your android-studio find it in File->Other Settings->Default Project Structure->SDKs. Then i changed JDK home path. /usr/lib/jvm/java-8-oracle
 
 Install the latest openjdk 8:
-```
+```sh
 sudo add-apt-repository ppa:openjdk-r/ppa
 sudo apt-get update
 sudo apt-get install openjdk-8-jdk
@@ -48,11 +58,13 @@ sudo apt-get install openjdk-8-jdk
 
 If you have more than one Java versions installed on your system. Run below command set the default Java:
 
-```sudo update-alternatives --config java```
+```sh
+sudo update-alternatives --config java
+```
 
 set default Java Compiler by running:
 
-```
+```sh
 sudo update-alternatives --config javac
 java -version
 ```
