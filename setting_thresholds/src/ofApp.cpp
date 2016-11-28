@@ -6,36 +6,30 @@
 void ofApp::setup(){
 
 #ifdef USE_CAMERA
-	cam_width = 480;  // try to grab at this size.
+	cam_width = 320;  // try to grab at this size.
 	cam_height = 240;
 
-	//we can now get back a list of devices.
-	vector<ofVideoDevice> devices = vid_grabber.listDevices();
+	//Set camera properties
+	vid_grabber = cv::VideoCapture(0);
+	vid_grabber.set(CV_CAP_PROP_FRAME_HEIGHT, cam_height);
+	vid_grabber.set(CV_CAP_PROP_FRAME_WIDTH, cam_width);
+	vid_grabber.set(CV_CAP_PROP_FPS, 30);
 
-	for(int i = 0; i < devices.size(); i++){
-		if(devices[i].bAvailable){
-			ofLogNotice() << devices[i].id << ": " << devices[i].deviceName;
-		}else{
-			ofLogNotice() << devices[i].id << ": " << devices[i].deviceName << " - unavailable ";
-		}
+	if(!vid_grabber.isOpened()){
+		cout << "Capture Error.. ..\n Cek Kamera Yaaa" << endl;
+		//return -1;
+	}else{
+		cout << "HOreee.. " << endl;
+		//namedWindow("PENSHIP CAM",1);
 	}
-
-	vid_grabber.setDeviceID(0);
-	vid_grabber.setDesiredFrameRate(60);
-	vid_grabber.initGrabber(cam_width, cam_height);
 
 	ofSetVerticalSync(true);
 
-	vid_grabber.update();
-	if(vid_grabber.isFrameNew()){
-		ofPixels& pixels = vid_grabber.getPixels();
-		mat_input = ofxCv::toCv(pixels);
-		cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
-		mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
-	}
+	vid_grabber >> mat_input;
+	cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
+	mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
 
 #else
-
 	im_input.load("blue.png");// --- OpenCV ---
     mat_input = ofxCv::toCv(im_input).clone();
     cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
@@ -219,13 +213,9 @@ void ofApp::draw(){
 #ifdef USE_CAMERA
     	if (key_is_down['c'])
     	{
-    		vid_grabber.update();
-    		if(vid_grabber.isFrameNew()){
-    			ofPixels& pixels = vid_grabber.getPixels();
-    			mat_input = ofxCv::toCv(pixels);
-    			cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
-    			mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
-    		}
+    		vid_grabber >> mat_input;
+    		cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
+    		mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
     	}
 #endif
 
@@ -285,4 +275,9 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+//--------------------------------------------------------------
+void ofApp::exit(){
+	vid_grabber.release();
 }

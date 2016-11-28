@@ -13,6 +13,7 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		void exit();
 		
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -28,7 +29,7 @@ class ofApp : public ofBaseApp{
 
 	#ifdef USE_CAMERA
 		//Camera
-        ofVideoGrabber vid_grabber;
+		cv::VideoCapture vid_grabber;
         int cam_width;
         int cam_height;
 
