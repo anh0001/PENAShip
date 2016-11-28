@@ -22,8 +22,18 @@ void ofApp::setup(){
 	}
 
 	ofSetVerticalSync(true);
+
 	vid_grabber >> mat_input;
-	cv::cvtColor(mat_input, mat_input, CV_BGR2RGB);
+	// Convert BGR to RGB manually
+	//cv::cvtColor(mat_input, mat_input, CV_BGR2RGB);
+	std::vector<cv::Mat> splited_im(3);
+	cv::split(mat_input, splited_im);
+	std::vector<cv::Mat> channels;
+	channels.push_back(splited_im[2]);
+	channels.push_back(splited_im[1]);
+	channels.push_back(splited_im[0]);
+	cv::merge(channels, mat_input);
+
 	cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
 	mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
 
@@ -212,7 +222,18 @@ void ofApp::draw(){
     	if (key_is_down['c'])
     	{
     		vid_grabber >> mat_input;
-    		cv::cvtColor(mat_input, mat_input, CV_BGR2RGB);
+
+    		// Convert BGR to RGB
+    		// Using cvtcolor does not change any output, we replace it
+    		//cv::cvtColor(mat_input, mat_input, CV_BGR2RGB);
+    		std::vector<cv::Mat> splited_im(3);
+    		cv::split(mat_input, splited_im);
+    		std::vector<cv::Mat> channels;
+    		channels.push_back(splited_im[2]);
+    		channels.push_back(splited_im[1]);
+    		channels.push_back(splited_im[0]);
+    		cv::merge(channels, mat_input);
+
     		cv::cvtColor(mat_input, hsv_im, CV_RGB2HSV);
     		mat_output = cv::Mat::zeros(mat_input.rows, mat_input.cols, CV_8UC1);
     	}
